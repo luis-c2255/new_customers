@@ -8,7 +8,7 @@ from datetime import datetime
 # 1. CONFIGURACION DE LA PAGINA
 # ======================================================================================
 st.set_page_config(
-    page_title="Retail Insights Dashboard",
+    page_title="Panel de control de análisis del sector minorista",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
