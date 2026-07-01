@@ -235,7 +235,7 @@ with st.sidebar.expander("ℹ️ ¿Que es el analisis RFM?"):
 # ======================================================================================
 col_titulo, col_kpi_rapido = st.columns([3, 1])
 with col_titulo:
-    st.title("📊 Retail Insights Dashboard")
+    st.title("📊 Panel de control de análisis del sector minorista")
     st.markdown(
         '<p class="subtitle">Analisis integral de clientes y ventas — segmentacion RFM, tendencias '
         "comerciales y desempeno geografico.</p>",
