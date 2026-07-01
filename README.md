@@ -1,93 +1,84 @@
-# 📊 Retail Insights Dashboard
+# 📊 Panel de control de análisis del sector minorista
 
-An interactive Streamlit dashboard for retail customer and sales analytics — RFM
-segmentation, sales performance, and geographic breakdowns — built for exploring
-customer value and commercial trends at a glance.
+Un panel de control interactivo creado con Streamlit para el análisis de clientes y ventas en el sector minorista —segmentación RFM, rendimiento de ventas y desgloses geográficos— diseñado para explorar el valor de los clientes y las tendencias comerciales de un solo vistazo.
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B)
 ![Plotly](https://img.shields.io/badge/Plotly-charts-3F4F75)
 
-## Features
+## Características
 
-- **Global KPIs** — revenue, profit, margin, order count, average order value, and
-  active customers, all responsive to filters.
-- **RFM Customer Segmentation** — automatic scoring (Recency, Frequency, Monetary)
-  that classifies customers into VIPs, At-Risk, New, Dormant, and Regular segments,
-  with a searchable/downloadable customer explorer per segment.
-- **Sales & Product Performance** — monthly revenue/profit trend, a profit-colored
-  treemap by category and sub-category, and a top-10 products ranking.
-- **Geographic View** — a U.S. choropleth map and top-10 states by revenue, with
-  automatic normalization of city names (e.g. Chicago, Houston) to their state.
-- **Global filters** — gender, product category, business segment, and date range,
-  all applied consistently across every tab.
-- **CSV export** — download any customer segment list directly from the app.
+- **KPI globales**: — ingresos, beneficios, margen, número de pedidos, valor medio por pedido y clientes activos, todos ellos adaptables a los filtros.
+- **Segmentación de clientes RFM** — puntuación automática (reciencia, frecuencia, valor monetario) que clasifica a los clientes en segmentos VIP, en riesgo, nuevos, inactivos y habituales,  con un explorador de clientes por segmento en el que se pueden realizar búsquedas y descargar datos.
+- **Rendimiento de ventas y productos** — tendencia mensual de ingresos y beneficios, un mapa de árbol con colores según los beneficios por categoría y subcategoría, y una clasificación de los 10 productos más vendidos.
+- **Vista geográfica** — un mapa coroplético de EE. UU. y los 10 estados con mayores ingresos, con normalización automática de los nombres de las ciudades (p. ej., Chicago, Houston) según su estado.
+- **Filtros globales** — género, categoría de producto, segmento de negocio y rango de fechas, todos ellos aplicados de forma coherente en todas las pestañas.
+- **Exportación a CSV** — descarga cualquier lista de segmentos de clientes directamente desde la aplicación.
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 .
-├── app.py                # Streamlit application
-├── customer_data.csv     # Customer demographic & profile data
-├── order_data.csv        # Order/transaction data
+├── app.py                # Aplicación Streamlit
+├── customer_data.csv     # Datos demográficos y de perfil de los clientes
+├── order_data.csv        # Datos de pedidos y transacciones
 └── README.md
 ```
 
-## Getting Started
+## Primeros pasos
 
-### Prerequisites
+### Requisitos previos
 
 - Python 3.9+
-- `customer_data.csv` and `order_data.csv` in the same folder as `app.py`
+- `customer_data.csv` y `order_data.csv` deben estar en la misma carpeta que `app.py`
 
-### Installation
+### Instalación
 
 ```bash
 pip install streamlit pandas plotly
 ```
 
-### Run the app
+### Ejecutar la aplicación
 
 ```bash
 streamlit run app.py
 ```
 
-The app will open automatically at `http://localhost:8501`.
+La aplicación se abrirá automáticamente en `http://localhost:8501`.
 
-## Data
+## Datos
 
-The dashboard joins two datasets on `Customer ID`:
+El panel de control une dos conjuntos de datos por el `Customer ID`:
 
-**`customer_data.csv`** — one row per customer
-| Column | Description |
+**`customer_data.csv`** — una fila por cliente
+| Columna | Descripción |
 |---|---|
-| `Customer ID` | Unique customer identifier |
-| `Age`, `Gender` | Demographics |
-| `Location` | U.S. state (or a small number of major cities, normalized in-app) |
-| `Purchase Amount (USD)`, `Previous Purchases` | Historical purchase signals |
-| `Subscription Status`, `Discount Applied`, `Payment Method`, `Frequency of Purchases` | Behavioral attributes |
+| `Customer ID` | Identificador único del cliente |
+| `Age`, `Gender` | Datos Demográficos |
+| `Location` | Estado de EE. UU. (o un pequeño número de ciudades importantes, normalizadas en la aplicación) |
+| `Purchase Amount (USD)`, `Previous Purchases` | Datos históricos de compra |
+| `Subscription Status`, `Discount Applied`, `Payment Method`, `Frequency of Purchases` | Atributos de comportamiento |
 
-**`order_data.csv`** — one row per order line
-| Column | Description |
+**`order_data.csv`** — una fila por línea de pedido
+| Columna | Descripción |
 |---|---|
-| `Order Id`, `Order Date`, `Customer ID` | Order identifiers |
-| `Ship Mode`, `Segment`, `Category`, `Sub Category`, `Product Id` | Order attributes |
-| `cost price`, `List Price`, `Quantity`, `Discount Percent` | Used to compute revenue, cost, and profit |
+| `Order Id`, `Order Date`, `Customer ID` | Identificadores del pedido |
+| `Ship Mode`, `Segment`, `Category`, `Sub Category`, `Product Id` | Atributos del pedido |
+| `cost price`, `List Price`, `Quantity`, `Discount Percent` | Se utilizan para calcular los ingresos, el coste y el beneficio |
 
-`Total_Sales`, `Total_Cost`, and `Profit` are derived columns calculated at load time.
+`Total_Sales`, `Total_Cost`, and `Profit` son columnas derivadas que se calculan en el momento de la carga.
 
-### RFM Methodology
+### Metodología RFM
 
-Each customer is scored 1–4 (4 = best) on three dimensions, using rank-based
-quartiles to avoid errors from duplicate values:
+A cada cliente se le asigna una puntuación del 1 al 4 (siendo 4 la mejor) en tres dimensiones, utilizando cuartiles basados en la clasificación para evitar errores derivados de valores duplicados:
 
-- **Recency (R)** — days since the customer's last order
-- **Frequency (F)** — total number of orders placed
-- **Monetary (M)** — total amount spent
+- **Recencia (R)** — dias transcurridos desde el último pedido del cliente
+- **Frecuencia (F)** — número total de pedidos realizados
+- **Valor Monetario (M)** — importe total gastado
 
-Scores combine into five segments:
+Las puntuaciones se agrupan en cinco segmentos:
 
-| Segment | Logic |
+| Segmento | Lógica |
 |---|---|
 | 🏆 Campeones (VIP) | R ≥ 3, F ≥ 3, M ≥ 3 |
 | ⚠️ En Riesgo de Abandono | R ≤ 2, F ≥ 3, M ≥ 3 |
@@ -95,20 +86,17 @@ Scores combine into five segments:
 | 💤 Clientes Dormidos | R ≤ 2, F ≤ 2 |
 | Clientes Regulares | Everything else |
 
-## Tech Stack
+## Especificaciones técnicas
 
-- [Streamlit](https://streamlit.io/) — app framework and UI
-- [Pandas](https://pandas.pydata.org/) — data processing
-- [Plotly Express](https://plotly.com/python/plotly-express/) — interactive charts
+- [Streamlit](https://streamlit.io/) — marco de trabajo de la aplicación e interfaz de usuario
+- [Pandas](https://pandas.pydata.org/) — procesamiento de datos
+- [Plotly Express](https://plotly.com/python/plotly-express/) —  gráficos interactivos
 
-## Notes & Limitations
+## Notas y limitaciones
 
-- A handful of rows in `Location` are cities rather than states; these are mapped
-  to their state for the geographic view. Any location that can't be resolved is
-  excluded from the map and flagged with a warning in the app.
-- Customers with no matching orders (or vice versa) are dropped by the inner join,
-  since RFM and sales metrics require both purchase and profile data.
+- Algunas filas de la columna `Location` corresponden a ciudades en lugar de estados; estas se asignan a su estado correspondiente para la vista geográfica. Cualquier ubicación que no se pueda resolver queda excluida del mapa y se señala con una advertencia en la aplicación.
+- Los clientes sin pedidos que coincidan (o viceversa) se descartan mediante la unión interna, ya que las métricas RFM y de ventas requieren tanto datos de compra como de perfil.
 
-## License
+## Licencia
 
-This project is provided as-is for portfolio and educational purposes.
+Este proyecto se proporciona «tal cual» con fines de cartera y educativos.
